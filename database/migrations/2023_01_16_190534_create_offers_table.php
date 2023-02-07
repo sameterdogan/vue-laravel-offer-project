@@ -16,8 +16,23 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("project_id");
-            $table->string("name");
+            $table->string('company_name');
+            $table->string('company_sub_title');
+            $table->string('company_logo');
+            $table->string("slug")->default("0");
+            $table->string('offer_project_name');
+            $table->mediumText('offer_description');
+            $table->mediumText('offer_requirement_analysis');
+            $table->string('offer_request_title');
+            $table->mediumText('offer_request_description');
+            $table->string('offer_cost_title');
+            $table->mediumText('offer_cost_description');
+            $table->string('offer_bidder_company');
+            $table->string('offer_status')->default("0");
+            $table->string('offer_color');
+            $table->string('offer_delivery_time');
+            $table->string('offer_price');
+            $table->string('offer_bid_time');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\API\OfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,10 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::get('details-project/{id}','show');
     });
 
-
+    Route::controller(OfferController::class)->group(function (){
+        Route::post('create-offer','createOffer');
+        Route::get('offers','getOffers');
+    });
 });
 
 

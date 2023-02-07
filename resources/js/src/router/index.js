@@ -21,7 +21,8 @@ const router = new VueRouter({
                         text: 'Teklifler',
                         active: true,
                     },
-                ]
+                ],
+                requiresAuth:true
             },
         },
         {
@@ -36,7 +37,8 @@ const router = new VueRouter({
                         active: true,
                     },
                 ],
-                layout: "full"
+                layout: "full",
+                requiresAuth:true
             },
         },
         {
@@ -108,5 +110,17 @@ router.afterEach(() => {
         appLoading.style.display = 'none'
     }
 })
+
+/*router.beforeEach((to,from)=>{
+
+    if(to.meta && to.meta.requiresAuth && !localStorage.getItem('token')){
+        return {name:"login"}
+    }
+    if(localStorage.getItem('token') && to.name=='login'){
+        return {name:"offers"}
+    }
+
+    return {name:"login"}
+})*/
 
 export default router

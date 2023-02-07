@@ -41,10 +41,14 @@
             title-tag="h2"
             class="font-weight-bold mb-1"
           >
-            Welcome to Vuexy! 👋
+            Giriş Yap
           </b-card-title>
-          <b-card-text class="mb-2">
-            Please sign-in to your account and start the adventure
+          <b-card-text class="mb-2" v-if="loginError" >
+
+                  <div class="text-center d-flex flex-column text-danger">
+                      {{loginError}}
+                  </div>
+
           </b-card-text>
 
           <!-- form -->
@@ -55,7 +59,7 @@
             >
               <!-- email -->
               <b-form-group
-                label="Email"
+                label="E-posta"
                 label-for="login-email"
               >
                 <validation-provider
@@ -77,9 +81,9 @@
               <!-- forgot password -->
               <b-form-group>
                 <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
+                  <label for="login-password">Şifre</label>
                   <b-link :to="{name:'auth-forgot-password-v2'}">
-                    <small>Forgot Password?</small>
+                    <small>Şifremi Unuttum</small>
                   </b-link>
                 </div>
                 <validation-provider
@@ -119,7 +123,7 @@
                   v-model="status"
                   name="checkbox-1"
                 >
-                  Remember Me
+                  Beni hatırla
                 </b-form-checkbox>
               </b-form-group>
 
@@ -130,52 +134,17 @@
                 block
                 @click="validationForm"
               >
-                Sign in
+               Giriş Yap
               </b-button>
             </b-form>
           </validation-observer>
 
-          <b-card-text class="text-center mt-2">
-            <span>New on our platform? </span>
-            <b-link :to="{name:'page-auth-register-v2'}">
-              <span>&nbsp;Create an account</span>
-            </b-link>
-          </b-card-text>
-
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
-
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
+            <b-card-text class="text-center mt-2">
+                <span>Hesabın yoksa kayıt ol </span>
+                <b-link :to="{name:'register'}">
+                    <span>&nbsp;Kayıt Ol</span>
+                </b-link>
+            </b-card-text>
         </b-col>
       </b-col>
     <!-- /Login-->
@@ -194,6 +163,7 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import {mapGetters} from "vuex";
 
 export default {
   components: {
@@ -238,19 +208,13 @@ export default {
       }
       return this.sideImg
     },
+      ...mapGetters({loginError:"getLoginError"})
   },
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
-          })
+            this.$store.dispatch("login",{email:this.userEmail,password:this.password})
         }
       })
     },

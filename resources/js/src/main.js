@@ -25,7 +25,8 @@ require('@resources/scss/core.scss')
 
 // import assets styles
 require('@resources/assets/scss/style.scss')
-
+import axios from "axios";
+axios.defaults.baseURL = `http://127.0.0.1:8000/api/`;
 Vue.config.productionTip = false
 
 new Vue({
